@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+const API_BASE_URL = 'https://estate-agency-dashboard.onrender.com'
+
 export const useTransactionStore = defineStore('transactions', {
   state: () => ({
     summary: null as any,
@@ -10,8 +12,9 @@ export const useTransactionStore = defineStore('transactions', {
   actions: {
     async fetchDashboard() {
       this.loading = true
+
       try {
-        const res = await fetch('http://localhost:3001')
+        const res = await fetch(`${API_BASE_URL}/summary`)
         const data = await res.json()
 
         this.summary = data.summary
@@ -24,16 +27,18 @@ export const useTransactionStore = defineStore('transactions', {
     },
 
     async nextStage(id: string) {
-      await fetch(`http://localhost:3001/transactions/${id}/next-stage`, {
+      await fetch(`${API_BASE_URL}/transactions/${id}/next-stage`, {
         method: 'PATCH',
       })
+
       await this.fetchDashboard()
     },
 
     async reset() {
-      await fetch('http://localhost:3001/reset', {
+      await fetch(`${API_BASE_URL}/reset`, {
         method: 'POST',
       })
+
       await this.fetchDashboard()
     },
   },
