@@ -19,7 +19,7 @@ export const useTransactionStore = defineStore('transactions', {
       this.loading = true
 
       try {
-        const res = await fetch(`${API_BASE_URL}/summary?t=${Date.now()}`, {
+        const res = await fetch(`${API_BASE_URL}/api/summary?t=${Date.now()}`, {
           method: 'GET',
           cache: 'no-store',
         })
@@ -36,7 +36,7 @@ export const useTransactionStore = defineStore('transactions', {
     },
 
     async nextStage(id: string) {
-      await fetch(`${API_BASE_URL}/transactions/${id}/next-stage`, {
+      await fetch(`${API_BASE_URL}/api/transactions/${id}/next-stage`, {
         method: 'PATCH',
       })
 
@@ -44,7 +44,7 @@ export const useTransactionStore = defineStore('transactions', {
     },
 
     async reset() {
-      await fetch(`${API_BASE_URL}/reset`, {
+      await fetch(`${API_BASE_URL}/api/reset`, {
         method: 'POST',
       })
 

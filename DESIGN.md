@@ -54,3 +54,110 @@ Edge case handled:
 This logic is extracted into a separate function:
 ```ts
 calculateBreakdown()
+
+This makes it:
+
+Reusable
+Testable
+Easy to maintain
+
+Testing Strategy
+
+Instead of testing everything, I focused on critical business logic:
+
+
+
+Tested scenarios:
+
+Same agent case
+Different agents case
+Zero fee case
+
+This ensures the most important logic is reliable.
+
+
+
+Frontend Design (Nuxt 3 + Pinia)
+
+The frontend is built with Nuxt 3, using modern Vue 3 features.
+
+
+Why Nuxt 3?
+Clean project structure
+Built-in routing & SSR support
+Great developer experience
+
+
+State Management (Pinia)
+
+Pinia is used to manage application state.
+
+Instead of calling API directly in components:
+
+All API logic is centralized in a store
+
+stores/transactions.ts
+
+
+Benefits:
+
+Cleaner components
+Better scalability
+Easier debugging
+
+
+
+Data Flow
+Page loads
+Store fetches dashboard data
+UI renders transactions
+User clicks "Next Stage"
+Store sends API request
+UI updates automatically
+
+
+
+Frontend ↔ Backend Communication
+
+Communication is handled via simple REST API:
+
+GET / → fetch dashboard data
+PATCH /transactions/:id/next-stage → move transaction forward
+POST /reset → reset system state
+
+
+Design Trade-offs
+
+Some things were intentionally kept simple:
+
+No database (mock data used)
+No authentication
+No complex error handling
+
+Reason:
+
+Focus was on logic, architecture, and clarity, not production-level completeness.
+
+
+If This Were a Real Project...
+
+Given more time, I would:
+
+Add a real database (PostgreSQL / MongoDB)
+Implement authentication (JWT)
+Add role-based access (admin / agent)
+Improve UI/UX interactions
+Add loading & error states
+Write more comprehensive tests
+
+
+Final Thoughts
+
+This project reflects how I approach development:
+
+Keep things clean
+Focus on business logic
+Build scalable structure from the start
+
+Even though it's a small project, the goal was to simulate how a real-world system would be designed.
+

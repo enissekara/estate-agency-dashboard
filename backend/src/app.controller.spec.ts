@@ -47,9 +47,6 @@ describe('calculateBreakdown', () => {
 
 })
 
-
-
-
 describe('getNextStage', () => {
 
   it('should move from agreement to earnest_money', () => {
