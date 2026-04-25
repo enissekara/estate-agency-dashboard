@@ -1,24 +1,52 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useTransactionStore } from '../stores/transactions'
+import { ref, computed, onMounted } from 'vue'
 
-const store = useTransactionStore()
+const API_BASE_URL = 'https://estate-agency-dashboard.onrender.com'
+
+const summary = ref({
+  activeTransactions: 0,
+  completedThisMonth: 0,
+  agencyRevenue: 0,
+  agentPayouts: 0,
+})
+
+const transactions = ref<any[]>([])
 
 const dashboard = computed(() => ({
-  summary: store.summary,
-  recentTransactions: store.transactions,
+  summary: summary.value,
+  recentTransactions: transactions.value,
 }))
 
+const fetchDashboard = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/summary?t=${Date.now()}`)
+    const data = await res.json()
+
+    summary.value = data.summary
+    transactions.value = data.recentTransactions
+  } catch (err) {
+    console.error('Dashboard fetch failed:', err)
+  }
+}
+
 onMounted(async () => {
-  await store.fetchDashboard()
+  await fetchDashboard()
 })
 
 const nextStage = async (id: string) => {
-  await store.nextStage(id)
+  await fetch(`${API_BASE_URL}/api/transactions/${id}/next-stage`, {
+    method: 'PATCH',
+  })
+
+  await fetchDashboard()
 }
 
 const resetData = async () => {
-  await store.reset()
+  await fetch(`${API_BASE_URL}/api/reset`, {
+    method: 'POST',
+  })
+
+  await fetchDashboard()
 }
 
 const getStageClass = (stage: string) => {
