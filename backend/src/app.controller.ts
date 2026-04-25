@@ -44,8 +44,6 @@ export const calculateBreakdown = (transaction: Transaction) => {
   };
 };
 
-
-// ✅ SADECE BUNU EKLEDİM
 export const getNextStage = (currentStage: Stage): Stage => {
   const stages: Stage[] = [
     'agreement',
@@ -66,7 +64,6 @@ export const getNextStage = (currentStage: Stage): Stage => {
 
   return stages[currentIndex + 1];
 };
-// ✅ BURAYA KADAR EKLENDİ
 
 
 const initialTransactions: Transaction[] = [
@@ -149,7 +146,7 @@ export class AppController {
     return TransactionModel.find().lean() as Promise<Transaction[]>;
   }
 
-  @Get()
+  @Get('summary')
   async getDashboard() {
     const transactions = await this.getTransactions();
 
