@@ -9,8 +9,8 @@ const dashboard = computed(() => ({
   recentTransactions: store.transactions,
 }))
 
-onMounted(() => {
-  store.fetchDashboard()
+onMounted(async () => {
+  await store.fetchDashboard()
 })
 
 const nextStage = async (id: string) => {
