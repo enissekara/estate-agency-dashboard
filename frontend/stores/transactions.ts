@@ -9,7 +9,7 @@ export const useTransactionStore = defineStore('transactions', {
       completedThisMonth: 0,
       agencyRevenue: 0,
       agentPayouts: 0,
-    } as any,
+    },
     transactions: [] as any[],
     loading: false,
   }),
@@ -19,26 +19,17 @@ export const useTransactionStore = defineStore('transactions', {
       this.loading = true
 
       try {
-        const res = await fetch(`${API_BASE_URL}/summary`, {
+        const res = await fetch(`${API_BASE_URL}/summary?t=${Date.now()}`, {
+          method: 'GET',
           cache: 'no-store',
         })
 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch dashboard: ${res.status}`)
-        }
-
         const data = await res.json()
 
-        this.summary = data.summary ?? {
-          activeTransactions: 0,
-          completedThisMonth: 0,
-          agencyRevenue: 0,
-          agentPayouts: 0,
-        }
-
-        this.transactions = data.recentTransactions ?? []
+        this.summary = data.summary
+        this.transactions = data.recentTransactions
       } catch (err) {
-        console.error('Dashboard fetch error:', err)
+        console.error('Dashboard fetch failed:', err)
       } finally {
         this.loading = false
       }
