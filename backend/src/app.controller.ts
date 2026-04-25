@@ -118,7 +118,10 @@ const transactionSchema = new Schema(
 const TransactionModel =
   models.Transaction || model('Transaction', transactionSchema);
 
-@Controller()
+
+
+
+@Controller('api')
 export class AppController {
   private readonly stages: Stage[] = [
     'agreement',
